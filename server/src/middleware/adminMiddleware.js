@@ -2,10 +2,8 @@ const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
-    console.log("Auth Header: ", authHeader)
 
     const [scheme, token] = authHeader ? authHeader.split(" ") : [];
-    console.log("Token: ", token)
 
     if (scheme !== "Bearer" || !token || token === "undefined" || token === "null") {
         return res.status(401).json({
@@ -15,7 +13,6 @@ const authMiddleware = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log("Decoded: ", decoded)
         req.user = decoded;
         next();
     } catch (error) {

@@ -4,9 +4,7 @@ import { analyzeCricketStance } from "../services/geminiService.js";
 export const createSession = async (req, res) => {
     try {
         const imagePath = req.file.path;
-        console.log("Image Path: ", imagePath)
         const aiResult = await analyzeCricketStance(imagePath);
-        console.log("AI Result: ", aiResult)
 
         const cleaned = aiResult
             .replace(/```json/g, "")
@@ -14,7 +12,6 @@ export const createSession = async (req, res) => {
             .trim();
 
         const parsedResult = JSON.parse(cleaned);
-        console.log("Parsed Result: ", parsedResult)
         const session = await Session.create({
             user: req.user.id,
             imageUrl: imagePath,
